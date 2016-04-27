@@ -6,7 +6,6 @@
     using System.Net;
     using System.Net.NetworkInformation;
     using System.Net.Sockets;
-    using System.Threading.Tasks;
 
     using SimpleWifi;
 
@@ -14,17 +13,17 @@
 
     public interface INetworkManager
     {
-        Task<NetworkSurvey> GetNetworkSurvey();
-        Task<bool> HasInternetAccess(string interfaceId);
+        NetworkSurvey GetNetworkSurvey();
+        bool HasInternetAccess(NetworkInterface networkInterface);
         void DisconnectWifi();
         void ConnectWifi();
     }
 
     public class NetworkManager : INetworkManager
     {
-        public async Task<NetworkSurvey> GetNetworkSurvey()
+        public NetworkSurvey GetNetworkSurvey()
         {
-            var internetInterfaceTypes = new[]
+            var internetInterfaceTypes = new HashSet<NetworkInterfaceType>
             {
                 NetworkInterfaceType.Wireless80211,
                 NetworkInterfaceType.Ethernet,
@@ -35,61 +34,47 @@
             };
 
             var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
-            var activeInterfaces = networkInterfaces
+            var accessableInterfaces = networkInterfaces
                 .Where(x => x.OperationalStatus == OperationalStatus.Up)
-                .Where(x => internetInterfaceTypes.Contains(x.NetworkInterfaceType));
-
-            var accessableInterfaces = new List<NetworkInterface>();
-            foreach (var networkInterface in activeInterfaces)
-            {
-                var result = await HasInternetAccess(networkInterface.Id);
-                if (result)
+                .Where(x => internetInterfaceTypes.Contains(x.NetworkInterfaceType))
+                .AsParallel()
+                .Where(HasInternetAccess)
+                .Select(x => new
                 {
-                    accessableInterfaces.Add(networkInterface);
-                }
-            }
-            var groups = accessableInterfaces
-                .GroupBy(x => x.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
-                .ToLookup(x => x.Key)
-                .ToDictionary(x => x.Key, x => x.SelectMany(c => c).ToList());
+                    IsWifi = x.NetworkInterfaceType == NetworkInterfaceType.Wireless80211
+                })
+                .ToList();
 
             return new NetworkSurvey
             {
-                WiredNetworks = groups.ContainsKey(false) ? groups[false] : new List<NetworkInterface>(),
-                WifiNetworks = groups.ContainsKey(true) ? groups[true] : new List<NetworkInterface>()
+                WiredNetworks = accessableInterfaces.Count(x => !x.IsWifi),
+                WifiNetworks = accessableInterfaces.Count(x => x.IsWifi)
             };
         }
 
-        public async Task<bool> HasInternetAccess(string interfaceId)
+        public bool HasInternetAccess(NetworkInterface networkInterface)
         {
-            var networkInterface = NetworkInterface
-                .GetAllNetworkInterfaces()
-                .SingleOrDefault(x => x.Id == interfaceId);
-
-            if (networkInterface == null)
-            {
-                throw new InvalidOperationException($"Interface does not exist: {interfaceId}");
-            }
-
             var addresses = networkInterface
                 .GetIPProperties()
-                .UnicastAddresses;
+                .UnicastAddresses
+                .Select(x => x.Address)
+                .Where(x => x.AddressFamily == AddressFamily.InterNetwork || x.IsIPv6Multicast);
 
             foreach (var address in addresses)
             {
                 try
                 {
-                    var localEndPoint = new IPEndPoint(address.Address, 0);
+                    var localEndPoint = new IPEndPoint(address, 0);
                     var tcpClient = new TcpClient(localEndPoint);
 
-                    await tcpClient.ConnectAsync("google.com", 80);
+                    tcpClient.Connect("8.8.8.8", 53);
 
                     if (tcpClient.Connected)
                     {
                         return true;
                     }
                 }
-                catch (Exception)
+                catch
                 {
                     // ignored
                 }
@@ -119,7 +104,11 @@
             foreach (var accessPoint in bestAccessPoint)
             {
                 var auth = new AuthRequest(accessPoint);
-                accessPoint.Connect(auth);
+                var success = accessPoint.Connect(auth);
+                if (success)
+                {
+                    return;
+                }
             }
         }
     }

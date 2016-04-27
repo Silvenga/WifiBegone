@@ -1,10 +1,10 @@
 ﻿namespace WifiBegone.Core
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using WifiBegone.Core.Models;
-    using WifiBegone.Core.States;
 
     public class NetworkReactor
     {
@@ -21,23 +21,23 @@
 
         public void Start()
         {
-            Task.Run(async () => await ReactorLoop());
+            Task.Run(() => ReactorLoopAsync());
         }
 
-        private async Task ReactorLoop()
+        private void ReactorLoopAsync()
         {
             Console.WriteLine("Starting loop.");
             Running = true;
             while (Running)
             {
-                await GetStateChanges();
-                await Task.Delay(1000 * 1);
+                GetStateChanges();
+                Thread.Sleep(1000 * 1);
             }
         }
 
-        public async Task GetStateChanges()
+        public void GetStateChanges()
         {
-            var nextSurvey = await _manager.GetNetworkSurvey();
+            var nextSurvey = _manager.GetNetworkSurvey();
             var nextState = nextSurvey.NetworkState;
             Console.Write(".");
 
@@ -45,34 +45,37 @@
             {
                 Console.WriteLine();
                 Console.WriteLine(nextSurvey);
-                await OnStateChange(LastState, nextState);
+                OnStateChange(LastState, nextState);
                 LastSurvey = nextSurvey;
                 LastState = nextState;
             }
         }
 
-        public async Task OnStateChange(NetworkState currentState, NetworkState nextState)
+        public void OnStateChange(NetworkState currentState, NetworkState nextState)
         {
             Console.WriteLine($"{currentState} -> {nextState}");
 
             switch (currentState)
             {
+                case NetworkState.Unknown:
+                    FromUnknown(nextState);
+                    break;
                 case NetworkState.NoNetwork:
-                    await FromNoNetwork(nextState);
+                    FromNoNetwork(nextState);
                     break;
                 case NetworkState.OnlyWifi:
-                    await FromOnlyWifi(nextState);
+                    FromOnlyWifi(nextState);
                     break;
                 case NetworkState.OnlyWired:
-                    await FromOnlyWired(nextState);
+                    FromOnlyWired(nextState);
                     break;
                 case NetworkState.Both:
-                    await FromBoth(nextState);
+                    FromBoth(nextState);
                     break;
             }
         }
 
-        private async Task FromNoNetwork(NetworkState nextState)
+        private void FromUnknown(NetworkState nextState)
         {
             switch (nextState)
             {
@@ -89,7 +92,24 @@
             }
         }
 
-        private async Task FromOnlyWifi(NetworkState nextState)
+        private void FromNoNetwork(NetworkState nextState)
+        {
+            switch (nextState)
+            {
+                case NetworkState.OnlyWifi:
+                    Console.WriteLine("No action.");
+                    break;
+                case NetworkState.OnlyWired:
+                    Console.WriteLine("No action.");
+                    break;
+                case NetworkState.Both:
+                    Console.WriteLine("Disconnect Wifi.");
+                    _manager.DisconnectWifi();
+                    break;
+            }
+        }
+
+        private void FromOnlyWifi(NetworkState nextState)
         {
             switch (nextState)
             {
@@ -106,7 +126,7 @@
             }
         }
 
-        private async Task FromOnlyWired(NetworkState nextState)
+        private void FromOnlyWired(NetworkState nextState)
         {
             switch (nextState)
             {
@@ -123,7 +143,7 @@
             }
         }
 
-        private async Task FromBoth(NetworkState nextState)
+        private void FromBoth(NetworkState nextState)
         {
             switch (nextState)
             {

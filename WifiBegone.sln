@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4E3DE1D1-481D-4CF4-809B-83238493624D}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WifiBegone.Core.Tests", "te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WifiBegone.Core", "src\WifiBegone.Core\WifiBegone.Core.csproj", "{CB0A09D8-1A44-499B-9C76-785D1B388D4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WifiBegone.Console", "WifiBegone.Console\WifiBegone.Console.csproj", "{45B6FCBC-F2DA-439F-8FA0-983F9D0C2FC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WifiBegone.Console", "src\WifiBegone.Console\WifiBegone.Console.csproj", "{45B6FCBC-F2DA-439F-8FA0-983F9D0C2FC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

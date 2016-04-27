@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WifiBegone.Console</RootNamespace>
     <AssemblyName>WifiBegone.Console</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,7 +49,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\WifiBegone.Core\WifiBegone.Core.csproj">
+    <ProjectReference Include="..\WifiBegone.Core\WifiBegone.Core.csproj">
       <Project>{CB0A09D8-1A44-499B-9C76-785D1B388D4F}</Project>
       <Name>WifiBegone.Core</Name>
     </ProjectReference>

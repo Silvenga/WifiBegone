@@ -1,20 +1,14 @@
 ﻿namespace WifiBegone.Core.Models
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net.NetworkInformation;
-
-    using WifiBegone.Core.States;
-
     public class NetworkSurvey
     {
-        public IList<NetworkInterface> WiredNetworks { get; set; }
+        public int WiredNetworks { get; set; }
 
-        public IList<NetworkInterface> WifiNetworks { get; set; }
+        public int WifiNetworks { get; set; }
 
-        public bool HasWiredNetworks => WiredNetworks?.Any() == true;
+        public bool HasWiredNetworks => WiredNetworks > 0;
 
-        public bool HasWifiNetworks => WifiNetworks?.Any() == true;
+        public bool HasWifiNetworks => WifiNetworks > 0;
 
         public NetworkState NetworkState => CreateState();
 
@@ -41,7 +35,7 @@
         public override string ToString()
         {
             return
-                $"Wired: {WiredNetworks.Count}, Wifi: {WifiNetworks.Count}, HasWired: {HasWiredNetworks}, HasWifi: {HasWifiNetworks}, State: {NetworkState}";
+                $"Wired: {WiredNetworks}, Wifi: {WifiNetworks}, HasWired: {HasWiredNetworks}, HasWifi: {HasWifiNetworks}, State: {NetworkState}";
         }
     }
 }
