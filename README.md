@@ -1,10 +1,10 @@
 # WifiBegone
 
-[![AppVeyor](https://img.shields.io/appveyor/ci/Silvenga/wifibegone.svg?maxAge=2592000?style=flat-square)](https://ci.appveyor.com/project/Silvenga/wifibegone)
+[![AppVeyor](https://img.shields.io/appveyor/ci/Silvenga/wifibegone.svg?maxAge=2592000&style=flat-square)](https://ci.appveyor.com/project/Silvenga/wifibegone)
 
 Sure, there's ways to prioritize connections, but they don't always work (think HyperV virtual switches). WifiBegone disconnects from WiFi when wired in, reconnects when not - simple!
 
-[Download Latest Build](https://ci.appveyor.com/project/Silvenga/wifibegone/build/artifacts)
+[Download Latest Release](https://github.com/Silvenga/WifiBegone/releases/)
 
 ## How does it work?
 
@@ -22,5 +22,7 @@ When a network change from wired to no network is detected, it will attempt to c
 ## TODO
 
 - [ ] Handle IPv6 only connections
+- [ ] Testing
+- [ ] Installer
 - [ ] Custom Icon
 - [ ] Detect network changes, don't poll
