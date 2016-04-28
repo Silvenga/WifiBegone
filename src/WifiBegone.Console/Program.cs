@@ -9,8 +9,9 @@
         private static void Main(string[] args)
         {
             var manager = new NetworkManager();
-            var reactor = new NetworkReactor(manager);
-            reactor.Start();
+            var notifier = new NetworkStateNotifier(manager);
+            var reactor = new NetworkStateReactor(manager, notifier, new ConsoleLogger());
+            notifier.Start();
 
             Console.ReadLine();
         }

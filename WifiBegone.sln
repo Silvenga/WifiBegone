@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WifiBegone.Core", "src\Wifi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WifiBegone.Console", "src\WifiBegone.Console\WifiBegone.Console.csproj", "{45B6FCBC-F2DA-439F-8FA0-983F9D0C2FC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WifiBegone.Tray", "src\WifiBegone.Tray\WifiBegone.Tray.csproj", "{D6B8ADD0-C49B-4F9F-99B3-8F638265688D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{45B6FCBC-F2DA-439F-8FA0-983F9D0C2FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45B6FCBC-F2DA-439F-8FA0-983F9D0C2FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45B6FCBC-F2DA-439F-8FA0-983F9D0C2FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6B8ADD0-C49B-4F9F-99B3-8F638265688D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6B8ADD0-C49B-4F9F-99B3-8F638265688D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6B8ADD0-C49B-4F9F-99B3-8F638265688D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6B8ADD0-C49B-4F9F-99B3-8F638265688D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,11 +12,13 @@
     public class NetworkReactorFacts
     {
         private readonly INetworkManager _manager = Substitute.For<INetworkManager>();
-        private readonly NetworkReactor _reactor;
+        private readonly NetworkStateNotifier _stateNotifier;
+        private readonly NetworkStateReactor _networkStateReactor;
 
         public NetworkReactorFacts()
         {
-            _reactor = new NetworkReactor(_manager);
+            _stateNotifier = new NetworkStateNotifier(_manager);
+            _networkStateReactor = new NetworkStateReactor(_manager, _stateNotifier, new ConsoleLogger());
         }
 
         [Theory,
@@ -27,7 +29,7 @@
         public void When_state_moves_to_both_disable_wifi(NetworkState from, NetworkState to)
         {
             // Act
-            _reactor.OnStateChange(from, to);
+            _networkStateReactor.OnStateChange(from, to);
 
             // Assert
             _manager.Received().DisconnectWifi();

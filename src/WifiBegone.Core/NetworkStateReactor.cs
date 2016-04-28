@@ -1,59 +1,33 @@
 ﻿namespace WifiBegone.Core
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     using WifiBegone.Core.Models;
 
-    public class NetworkReactor
+    public class NetworkStateReactor
     {
         private readonly INetworkManager _manager;
-        public NetworkSurvey LastSurvey { get; set; }
-        public NetworkState LastState { get; set; }
+        private readonly INetworkStateNotifier _stateNotifier;
+        private readonly ILogger _logger;
 
-        public bool Running { get; set; }
-
-        public NetworkReactor(INetworkManager manager)
+        public NetworkStateReactor(INetworkManager manager, INetworkStateNotifier stateNotifier, ILogger logger)
         {
             _manager = manager;
+            _stateNotifier = stateNotifier;
+            _logger = logger;
+
+            _stateNotifier.NetworkStateChanged += StateNotifierOnNetworkStateChanged;
         }
 
-        public void Start()
+        private void StateNotifierOnNetworkStateChanged(object source, NetworkStateChangedArgs networkStateChangedArgs)
         {
-            Task.Run(() => ReactorLoopAsync());
-        }
-
-        private void ReactorLoopAsync()
-        {
-            Console.WriteLine("Starting loop.");
-            Running = true;
-            while (Running)
-            {
-                GetStateChanges();
-                Thread.Sleep(1000 * 1);
-            }
-        }
-
-        public void GetStateChanges()
-        {
-            var nextSurvey = _manager.GetNetworkSurvey();
-            var nextState = nextSurvey.NetworkState;
-            Console.Write(".");
-
-            if (nextState != LastState)
-            {
-                Console.WriteLine();
-                Console.WriteLine(nextSurvey);
-                OnStateChange(LastState, nextState);
-                LastSurvey = nextSurvey;
-                LastState = nextState;
-            }
+            OnStateChange(
+                networkStateChangedArgs.LastNetworkSurvey?.NetworkState ?? NetworkState.Unknown,
+                networkStateChangedArgs.NextNetworkSurvey.NetworkState
+                );
         }
 
         public void OnStateChange(NetworkState currentState, NetworkState nextState)
         {
-            Console.WriteLine($"{currentState} -> {nextState}");
+            _logger.Info($"{currentState} -> {nextState}");
 
             switch (currentState)
             {
@@ -79,14 +53,19 @@
         {
             switch (nextState)
             {
+                case NetworkState.NoNetwork:
+                    _logger.Info($"Wired disconnected, trying wireless. ({NetworkState.Unknown} -> {nextState})");
+                    _manager.ConnectWifi();
+                    break;
                 case NetworkState.OnlyWifi:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
                 case NetworkState.OnlyWired:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
                 case NetworkState.Both:
-                    Console.WriteLine("Disconnect Wifi.");
+                    _logger.Info(
+                        $"Detected active wired connection, disconnecting wireless. ({NetworkState.Unknown} -> {nextState})");
                     _manager.DisconnectWifi();
                     break;
             }
@@ -97,13 +76,14 @@
             switch (nextState)
             {
                 case NetworkState.OnlyWifi:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
                 case NetworkState.OnlyWired:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
                 case NetworkState.Both:
-                    Console.WriteLine("Disconnect Wifi.");
+                    _logger.Info(
+                        $"Detected active wired connection, disconnecting wireless. ({NetworkState.NoNetwork} -> {nextState})");
                     _manager.DisconnectWifi();
                     break;
             }
@@ -114,13 +94,14 @@
             switch (nextState)
             {
                 case NetworkState.NoNetwork:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
                 case NetworkState.OnlyWired:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
                 case NetworkState.Both:
-                    Console.WriteLine("Disconnect Wifi.");
+                    _logger.Info(
+                        $"Detected active wired connection, disconnecting wireless. ({NetworkState.OnlyWifi} -> {nextState})");
                     _manager.DisconnectWifi();
                     break;
             }
@@ -131,13 +112,15 @@
             switch (nextState)
             {
                 case NetworkState.NoNetwork:
-                    Console.WriteLine("No action.");
+                    _logger.Info($"Wired disconnected, trying wireless. ({NetworkState.OnlyWired} -> {nextState})");
+                    _manager.ConnectWifi();
                     break;
                 case NetworkState.OnlyWifi:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
                 case NetworkState.Both:
-                    Console.WriteLine("Disconnect Wifi.");
+                    _logger.Info(
+                        $"Detected active wired connection, disconnecting wireless. ({NetworkState.OnlyWired} -> {nextState})");
                     _manager.DisconnectWifi();
                     break;
             }
@@ -148,13 +131,13 @@
             switch (nextState)
             {
                 case NetworkState.NoNetwork:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
                 case NetworkState.OnlyWifi:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
                 case NetworkState.OnlyWired:
-                    Console.WriteLine("No action.");
+                    _logger.Info("No action.");
                     break;
             }
         }
