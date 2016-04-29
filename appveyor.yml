@@ -15,7 +15,7 @@ build:
   parallel: true
   verbosity: minimal
 artifacts:
-- path: src\WifiBegone.Tray\bin\Release\WifiBegone.Tray.exe
-  name: WifiBegone.Tray.exe
-deploy_script:
+- path: GithubRelease
+  name: '\Releases\*'
+after_build:
 - ps: .\build-installer.ps1
