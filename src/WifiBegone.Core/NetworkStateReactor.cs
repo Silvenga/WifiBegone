@@ -54,7 +54,7 @@
             switch (nextState)
             {
                 case NetworkState.NoNetwork:
-                    _logger.Info($"Wired disconnected, trying wireless. ({NetworkState.Unknown} -> {nextState})");
+                    _logger.Notify($"Wired disconnected, trying wireless. ({NetworkState.Unknown} -> {nextState})");
                     _manager.ConnectWifi();
                     break;
                 case NetworkState.OnlyWifi:
@@ -64,7 +64,7 @@
                     _logger.Info("No action.");
                     break;
                 case NetworkState.Both:
-                    _logger.Info(
+                    _logger.Notify(
                         $"Detected active wired connection, disconnecting wireless. ({NetworkState.Unknown} -> {nextState})");
                     _manager.DisconnectWifi();
                     break;
@@ -82,7 +82,7 @@
                     _logger.Info("No action.");
                     break;
                 case NetworkState.Both:
-                    _logger.Info(
+                    _logger.Notify(
                         $"Detected active wired connection, disconnecting wireless. ({NetworkState.NoNetwork} -> {nextState})");
                     _manager.DisconnectWifi();
                     break;
@@ -100,7 +100,7 @@
                     _logger.Info("No action.");
                     break;
                 case NetworkState.Both:
-                    _logger.Info(
+                    _logger.Notify(
                         $"Detected active wired connection, disconnecting wireless. ({NetworkState.OnlyWifi} -> {nextState})");
                     _manager.DisconnectWifi();
                     break;
@@ -112,14 +112,14 @@
             switch (nextState)
             {
                 case NetworkState.NoNetwork:
-                    _logger.Info($"Wired disconnected, trying wireless. ({NetworkState.OnlyWired} -> {nextState})");
+                    _logger.Notify($"Wired disconnected, trying wireless. ({NetworkState.OnlyWired} -> {nextState})");
                     _manager.ConnectWifi();
                     break;
                 case NetworkState.OnlyWifi:
                     _logger.Info("No action.");
                     break;
                 case NetworkState.Both:
-                    _logger.Info(
+                    _logger.Notify(
                         $"Detected active wired connection, disconnecting wireless. ({NetworkState.OnlyWired} -> {nextState})");
                     _manager.DisconnectWifi();
                     break;
