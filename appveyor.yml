@@ -17,3 +17,5 @@ build:
 artifacts:
 - path: src\WifiBegone.Tray\bin\Release\WifiBegone.Tray.exe
   name: WifiBegone.Tray.exe
+deploy_script:
+- ps: .\build-installer.ps1
