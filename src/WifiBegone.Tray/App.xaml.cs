@@ -34,9 +34,9 @@ namespace WifiBegone.Tray
 
         private async Task UpdateLoopAsync()
         {
-            using (var mgr = UpdateManager.GitHubUpdateManager(UpdateUrl))
+            using (var mgr = UpdateManager.GitHubUpdateManager(UpdateUrl).Result)
             {
-                await mgr.Result.UpdateApp();
+                await mgr.UpdateApp();
             }
         }
     }
