@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>WifiBegone</id>
+    <version>1.0.0.0</version>
+    <title>WifiBegone</title>
+    <authors>Silvenga</authors>
+    <owners>Silvenga</owners>
+    <licenseUrl>https://github.com/Silvenga/WifiBegone/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Silvenga/WifiBegone</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WifiBegone</description>
+    <copyright>Copyright 2016</copyright>
+  </metadata>
+  <files>
+    <file src="bin\Release\*" target="lib\net45\" exclude="bin\Release\*.vshost.*;bin\Release\*.pdb" />
+  </files>
+</package>

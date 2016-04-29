@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525"
-        Visibility="Hidden"
-        Loaded="MainWindow_OnLoaded">
+        Visibility="Hidden">
     <Grid>
         
     </Grid>
