@@ -12,12 +12,7 @@ namespace WifiBegone.Tray
 
         public App()
         {
-            Install();
-        }
-
-        private void Install()
-        {
-            using (var mgr = UpdateManager.GitHubUpdateManager(UpdateUrl))
+            using (var mgr = UpdateManager.GitHubUpdateManager(UpdateUrl).Result)
             {
                 const string exePath = "WifiBegone.Tray.exe";
                 const ShortcutLocation shortcutPaths = ShortcutLocation.StartMenu | ShortcutLocation.Startup;
@@ -25,13 +20,13 @@ namespace WifiBegone.Tray
                 SquirrelAwareApp.HandleEvents(
                     onInitialInstall:
                         v =>
-                            mgr.Result.CreateShortcutsForExecutable(exePath, shortcutPaths, false),
+                            mgr.CreateShortcutsForExecutable(exePath, shortcutPaths, false),
                     onAppUpdate:
                         v =>
-                            mgr.Result.CreateShortcutsForExecutable(exePath, shortcutPaths, true),
+                            mgr.CreateShortcutsForExecutable(exePath, shortcutPaths, true),
                     onAppUninstall:
                         v =>
-                            mgr.Result.RemoveShortcutsForExecutable(exePath, shortcutPaths));
+                            mgr.RemoveShortcutsForExecutable(exePath, shortcutPaths));
             }
 
             Task.Run(async () => await UpdateLoopAsync());

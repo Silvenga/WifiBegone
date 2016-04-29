@@ -15,7 +15,6 @@ build:
   parallel: true
   verbosity: minimal
 artifacts:
-- path: GithubRelease
-  name: '\Releases\*'
+- path: '\Releases\*'
 after_build:
 - ps: .\build-installer.ps1
