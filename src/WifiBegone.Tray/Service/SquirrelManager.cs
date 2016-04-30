@@ -8,6 +8,8 @@
 
     using Squirrel;
 
+    using WifiBegone.Tray.Helpers;
+
     public static class SquirrelManager
     {
         private const string UpdateUrl = "https://github.com/Silvenga/WifiBegone";
@@ -46,6 +48,7 @@
                 if (updates.ReleasesToApply.Any())
                 {
                     var release = updates.ReleasesToApply.OrderByDescending(x => x.Version).First();
+
                     await ApplyUpdateAsync(release.Version.Version, mgr);
                 }
             }
@@ -53,10 +56,16 @@
 
         private static async Task ApplyUpdateAsync(Version lastVersion, UpdateManager mgr)
         {
-            await mgr.UpdateApp();
+            ConsoleManager.Show();
+            Console.WriteLine($"New version {lastVersion} found. Updating...");
+
+            await mgr.UpdateApp(i => Console.WriteLine($"Progress: {i}%"));
 
             var folder = $"app-{lastVersion.Major}.{lastVersion.Minor}.{lastVersion.Build}";
             var latestExe = Path.Combine(mgr.RootAppDirectory, folder, ExePath);
+
+            Console.WriteLine("Completed! Restarting...");
+            await Task.Delay(1000 * 2);
 
             UpdateManager.RestartApp(latestExe);
         }

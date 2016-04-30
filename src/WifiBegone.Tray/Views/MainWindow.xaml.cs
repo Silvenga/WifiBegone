@@ -1,12 +1,6 @@
 ﻿namespace WifiBegone.Tray.Views
 {
-    using System;
-    using System.IO;
-    using System.Reflection;
-    using System.Threading.Tasks;
     using System.Windows;
-
-    using Squirrel;
 
     using WifiBegone.Tray.Service;
 

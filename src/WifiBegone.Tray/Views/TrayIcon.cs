@@ -2,9 +2,13 @@
 {
     using System;
     using System.Drawing;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
 
     using WifiBegone.Tray.Helpers;
+    using WifiBegone.Tray.Service;
+
+    using Application = System.Windows.Application;
 
     public class TrayIcon
     {
@@ -32,9 +36,21 @@
             var items = new[]
             {
                 new MenuItem("Show/Hide Debug Console", ShowHidDebugConsoleClick),
+                new MenuItem("Check for Updates", CheckForUpdatesClick),
+                new MenuItem("Exit", ExitClick),
             };
             var menu = new ContextMenu(items);
             return menu;
+        }
+
+        private void CheckForUpdatesClick(object sender, EventArgs eventArgs)
+        {
+            Task.Run(async () => await SquirrelManager.UpdateAsync());
+        }
+
+        private void ExitClick(object sender, EventArgs eventArgs)
+        {
+            Application.Current.Shutdown();
         }
 
         private void ShowHidDebugConsoleClick(object sender, EventArgs eventArgs)
