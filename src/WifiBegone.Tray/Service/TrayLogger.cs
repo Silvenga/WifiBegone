@@ -22,6 +22,7 @@ namespace WifiBegone.Tray.Service
         public void Notify(string message)
         {
             _icon.Notification(message);
+            Info(message);
         }
     }
 }
