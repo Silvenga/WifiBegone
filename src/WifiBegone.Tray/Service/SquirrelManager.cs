@@ -69,8 +69,9 @@
             var latestExe = Path.Combine(mgr.RootAppDirectory, folder, ExePath);
 
             Console.WriteLine("Completed! Restarting...");
-            await Task.Delay(1000 * 2);
 
+            mgr.Dispose(); // https://github.com/Squirrel/Squirrel.Windows/issues/284
+            await Task.Delay(1000 * 2);
             UpdateManager.RestartApp(latestExe);
         }
     }
