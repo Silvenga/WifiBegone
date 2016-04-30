@@ -111,6 +111,7 @@
     <Compile Include="Service\BackgroundService.cs" />
     <Compile Include="Helpers\ConsoleManager.cs" />
     <Compile Include="Service\TrayLogger.cs" />
+    <Compile Include="SquirrelManager.cs" />
     <Compile Include="Views\TrayIcon.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
