@@ -1,7 +1,8 @@
-﻿namespace WifiBegone.Tray
+﻿namespace WifiBegone.Tray.Service
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
 
@@ -41,13 +42,11 @@
         {
             using (var mgr = await CreateUpdateManagerAsync())
             {
-                var release = await mgr.CheckForUpdate();
-                var version = release.FutureReleaseEntry?.Version;
-
-                if (version != null)
+                var updates = await mgr.CheckForUpdate();
+                if (updates.ReleasesToApply.Any())
                 {
-                    Console.WriteLine(version);
-                    await ApplyUpdateAsync(version.Version, mgr);
+                    var release = updates.ReleasesToApply.OrderByDescending(x => x.Version).First();
+                    await ApplyUpdateAsync(release.Version.Version, mgr);
                 }
             }
         }
