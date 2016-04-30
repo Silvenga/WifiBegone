@@ -2,6 +2,7 @@
 {
     using System;
     using System.Drawing;
+    using System.Reflection;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
@@ -35,6 +36,7 @@
         {
             var items = new[]
             {
+                new MenuItem($"WifiBegone v{Assembly.GetExecutingAssembly().GetName().Version}") {Enabled = false},
                 new MenuItem("Show/Hide Debug Console", ShowHidDebugConsoleClick),
                 new MenuItem("Check for Updates", CheckForUpdatesClick),
                 new MenuItem("Exit", ExitClick),
@@ -45,6 +47,7 @@
 
         private void CheckForUpdatesClick(object sender, EventArgs eventArgs)
         {
+            ConsoleManager.Show();
             Task.Run(async () => await SquirrelManager.UpdateAsync());
         }
 

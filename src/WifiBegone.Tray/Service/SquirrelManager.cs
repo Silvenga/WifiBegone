@@ -44,6 +44,7 @@
         {
             using (var mgr = await CreateUpdateManagerAsync())
             {
+                Console.WriteLine("Checking for updates...");
                 var updates = await mgr.CheckForUpdate();
                 if (updates.ReleasesToApply.Any())
                 {
@@ -51,12 +52,15 @@
 
                     await ApplyUpdateAsync(release.Version.Version, mgr);
                 }
+                else
+                {
+                    Console.WriteLine("No updates found.");
+                }
             }
         }
 
         private static async Task ApplyUpdateAsync(Version lastVersion, UpdateManager mgr)
         {
-            ConsoleManager.Show();
             Console.WriteLine($"New version {lastVersion} found. Updating...");
 
             await mgr.UpdateApp(i => Console.WriteLine($"Progress: {i}%"));
