@@ -58,7 +58,10 @@
                 .GetIPProperties()
                 .UnicastAddresses
                 .Select(x => x.Address)
-                .Where(x => x.AddressFamily == AddressFamily.InterNetwork || x.IsIPv6Multicast);
+                .Where(
+                    x =>
+                        x.AddressFamily == AddressFamily.InterNetwork ||
+                        (x.AddressFamily == AddressFamily.InterNetworkV6 && !x.IsIPv6LinkLocal));
 
             foreach (var address in addresses)
             {
@@ -67,7 +70,12 @@
                     var localEndPoint = new IPEndPoint(address, 0);
                     var tcpClient = new TcpClient(localEndPoint);
 
-                    tcpClient.Connect("8.8.8.8", 53);
+                    var isIpv6 = localEndPoint.AddressFamily == AddressFamily.InterNetworkV6;
+                    var testHost = isIpv6
+                        ? "2001:4860:4860::8888"
+                        : "8.8.8.8";
+
+                    tcpClient.Connect(testHost, 53);
 
                     if (tcpClient.Connected)
                     {

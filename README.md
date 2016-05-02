@@ -21,7 +21,7 @@ When a network change from wired to no network is detected, it will attempt to c
 
 ## TODO
 
-- [ ] Handle IPv6 only connections
+- [X] Handle IPv6 only connections
 - [ ] Testing
 - [X] Installer
 - [ ] Custom Icon

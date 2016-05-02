@@ -8,8 +8,6 @@
 
     using Squirrel;
 
-    using WifiBegone.Tray.Helpers;
-
     public static class SquirrelManager
     {
         private const string UpdateUrl = "https://github.com/Silvenga/WifiBegone";
