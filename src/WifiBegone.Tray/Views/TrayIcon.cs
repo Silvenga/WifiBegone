@@ -22,7 +22,7 @@
 
         public void Show()
         {
-            _icon.Icon = SystemIcons.WinLogo;
+            _icon.Icon = Properties.Resources.Icon;
             _icon.Visible = true;
             _icon.ContextMenu = CreateContextMenu();
         }
