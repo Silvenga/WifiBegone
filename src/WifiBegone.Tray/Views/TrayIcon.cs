@@ -49,6 +49,7 @@
         {
             ConsoleManager.Show();
             Task.Run(async () => await SquirrelManager.UpdateAsync());
+            ConsoleManager.Hide();
         }
 
         private void ExitClick(object sender, EventArgs eventArgs)
