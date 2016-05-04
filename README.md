@@ -26,5 +26,5 @@ When a network change from wired to no network is detected, it will attempt to c
 - [X] Handle IPv6 only connections
 - [ ] Testing
 - [X] Installer
-- [ ] Custom Icon
+- [X] Custom Icon
 - [ ] Detect network changes, don't poll
