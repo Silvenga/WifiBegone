@@ -1,3 +1,5 @@
+![WifiBegone](assets/icon.svg)
+
 # WifiBegone
 
 [![AppVeyor](https://img.shields.io/appveyor/ci/Silvenga/wifibegone.svg?maxAge=2592000&style=flat-square)](https://ci.appveyor.com/project/Silvenga/wifibegone)
