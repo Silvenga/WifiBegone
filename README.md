@@ -1,4 +1,4 @@
-![WifiBegone](assets/icon.svg)
+![WifiBegone](assets/icon.png)
 
 # WifiBegone
 
