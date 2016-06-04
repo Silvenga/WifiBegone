@@ -10,16 +10,16 @@ Sure, there's ways to prioritize connections, but they don't always work (think 
 
 ## How does it work?
 
-When the program detects a wireless and wired active connection, it will attempt to disconnect from the wireless using the native WiFi interface found in Windows. 
+When WifiBegone detects a wireless and wired (active) connection, it will attempt to disconnect from the wireless using the native WiFi interface found in Windows. 
 
-To detect active interfaces this program:
+To detect active interfaces WifiBegone does the following:
 
-- Finds all wireless and wired "Up" interfaces installed. VPN and tunnels are not considered. 
+- Finds all wireless and wired "Up" interfaces installed. VPN's and other known tunnels are ignored. 
 - For each interface, bind a TCP client.
-- Attempt to connect to 8.8.8.8 (Google's public DNS server) on port 53. 
+- Attempt to connect to either 8.8.8.8 or 2001:4860:4860::8888 (Google's public DNS server) on port 53 (default port for DNS). 
 - If success, mark connection as active
 
-When a network change from wired to no network is detected, it will attempt to connect to the strongest WiFi connection that has a current wireless profile. 
+When a network change from wired to no-network is detected, WifiBegone will attempt to connect to the strongest WiFi connection where a valid wireless profile exists. 
 
 ## TODO
 
@@ -27,4 +27,4 @@ When a network change from wired to no network is detected, it will attempt to c
 - [ ] Testing
 - [X] Installer
 - [X] Custom Icon
-- [ ] Detect network changes, don't poll
+- [X] Detect network changes, don't poll
