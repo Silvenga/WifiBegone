@@ -48,8 +48,8 @@
         private void CheckForUpdatesClick(object sender, EventArgs eventArgs)
         {
             ConsoleManager.Show();
-            Task.Run(async () => await SquirrelManager.UpdateAsync());
-            ConsoleManager.Hide();
+            Task.Run(async () => await SquirrelManager.UpdateAsync())
+                .ContinueWith(task => ConsoleManager.Hide());
         }
 
         private void ExitClick(object sender, EventArgs eventArgs)
