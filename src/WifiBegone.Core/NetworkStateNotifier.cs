@@ -1,7 +1,7 @@
 ﻿namespace WifiBegone.Core
 {
     using System;
-    using System.Threading;
+    using System.Net.NetworkInformation;
     using System.Threading.Tasks;
 
     using WifiBegone.Core.Models;
@@ -35,12 +35,12 @@
         private void ReactorLoopAsync()
         {
             Console.WriteLine("Starting loop.");
+
+            NetworkChange.NetworkAddressChanged += (sender, args) => PollStateChanges();
+            NetworkChange.NetworkAvailabilityChanged += (sender, args) => PollStateChanges();
+
             Running = true;
-            while (Running)
-            {
-                PollStateChanges();
-                Thread.Sleep(1000 * 1);
-            }
+            PollStateChanges();
         }
 
         public void PollStateChanges()
