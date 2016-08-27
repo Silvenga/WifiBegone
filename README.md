@@ -24,7 +24,7 @@ When a network change from wired to no-network is detected, WifiBegone will atte
 ## TODO
 
 - [X] Handle IPv6 only connections
-- [ ] Testing
+- [X] Testing
 - [X] Installer
 - [X] Custom Icon
 - [X] Detect network changes, don't poll
