@@ -8,6 +8,8 @@ Sure, there's ways to prioritize connections, but they don't always work (think 
 
 [Download Latest Release](https://github.com/Silvenga/WifiBegone/releases/)
 
+![Screenshot](assets/screenshot.png)
+
 ## How does it work?
 
 When WifiBegone detects a wireless and wired (active) connection, it will attempt to disconnect from the wireless using the native WiFi interface found in Windows. 
