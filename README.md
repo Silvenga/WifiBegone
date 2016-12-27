@@ -30,3 +30,5 @@ When a network change from wired to no-network is detected, WifiBegone will atte
 - [X] Installer
 - [X] Custom Icon
 - [X] Detect network changes, don't poll
+- [ ] Possible issue with wifi-direct connections
+- [ ] Possible crash during startup
